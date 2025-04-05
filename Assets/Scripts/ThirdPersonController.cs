@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Code.CameraTool;
+using UnityEngine;
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 using UnityEngine.InputSystem;
 #endif
@@ -60,6 +61,8 @@ namespace StarterAssets
         public LayerMask GroundLayers;
 
         public float Sensitivity = 10f;
+
+        public CameraToolService CameraToolService;
 
         [Header("Cinemachine")]
         [Tooltip("The follow target set in the Cinemachine Virtual Camera that the camera will follow")]
@@ -188,6 +191,10 @@ namespace StarterAssets
         private void CameraRotation()
         {
             // if there is an input and camera position is not fixed
+            if (CameraToolService.UsingCameraTool)
+            {
+                return;
+            }
             if (_input.look.sqrMagnitude >= _threshold && !LockCameraPosition)
             {
                 //Don't multiply mouse input by Time.deltaTime;
